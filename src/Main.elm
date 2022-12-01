@@ -72,6 +72,11 @@ view _ =
     { title = "Advent of Code 2022"
     , body =
         [ H.pre []
-            [ H.text (Debug.toString Day01.part1) ]
+            [ H.text "Part 1: "
+            , H.text (Debug.toString Day01.part1) 
+            , H.text "\n"
+            , H.text "Part 2: "
+            , H.text (Debug.toString Day01.part2)
+            ]
         ]
     }

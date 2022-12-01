@@ -1,12 +1,21 @@
-module Day01 exposing (part1)
+module Day01 exposing (part1, part2)
 
-part1 =
-    input
+part1 : Int
+part1 = get 1 input
+
+part2 : Int
+part2 = get 3 input
+
+get : Int -> String -> Int
+get n lines =
+    lines
     |> String.trim
     |> String.split "\n\n"
     |> List.map sumLines
-    |> List.maximum
-    |> Maybe.withDefault 0
+    |> List.sort
+    |> List.reverse
+    |> List.take n
+    |> List.sum
 
 sumLines : String -> Int
 sumLines lines =
@@ -17,6 +26,24 @@ sumLines lines =
     |> List.sum
 
 -- PUZZLE INPUT
+
+sample : String
+sample = """
+1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000
+"""
 
 input : String
 input = """
