@@ -1,8 +1,9 @@
 module Main exposing (main)
 
+import Day01
 import Browser
 import Browser.Navigation as Nav
-import Html exposing (..)
+import Html as H
 import Url
 
 type alias Flags = ()
@@ -68,9 +69,9 @@ subscriptions _ =
 
 view : Model -> Browser.Document Msg
 view _ =
-    { title = "Application Title"
+    { title = "Advent of Code 2022"
     , body =
-        [ div []
-            [ text "New Application" ]
+        [ H.pre []
+            [ H.text (Debug.toString Day01.part1) ]
         ]
     }
