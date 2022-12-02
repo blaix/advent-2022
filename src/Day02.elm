@@ -1,14 +1,40 @@
-module Day02 exposing (part1)
+module Day02 exposing (part1, part2)
 
 
-type Throw
+part1 =
+    input
+        |> toLetterPairs
+        -- Part 1 thinks the second letter is a move
+        |> List.map (\( a, b ) -> ( toMove a, toMove b ))
+        |> filterUnparsed
+        |> List.map toScore
+        |> List.sum
+
+
+part2 =
+    input
+        |> toLetterPairs
+        -- Part 2 knows the second letter is the desired outcome
+        |> List.map (\( a, b ) -> ( toMove a, toOutcome b ))
+        |> filterUnparsed
+        |> List.map outcomeToMove
+        |> List.map toScore
+        |> List.sum
+
+
+type Move
     = Rock
     | Paper
     | Scissors
-    | Unknown
 
 
-type alias ScoreConfig =
+type Outcome
+    = Lose
+    | Draw
+    | Win
+
+
+scoring :
     { rock : Int
     , paper : Int
     , scissors : Int
@@ -16,9 +42,6 @@ type alias ScoreConfig =
     , draw : Int
     , lose : Int
     }
-
-
-scoring : ScoreConfig
 scoring =
     { rock = 1
     , paper = 2
@@ -29,87 +52,150 @@ scoring =
     }
 
 
-part1 =
-    input
+toLetterPairs : String -> List ( String, String )
+toLetterPairs str =
+    str
         |> String.trim
         |> String.lines
         |> List.map (String.split " ")
-        |> List.map toThrows
-        |> List.map toScore
-        |> List.sum
-
-
-toThrows : List String -> List Throw
-toThrows letters =
-    letters
-        |> List.map
+        |> List.filterMap
             (\l ->
-                if l == "A" || l == "X" then
-                    Rock
+                case l of
+                    [ a, b ] ->
+                        Just ( a, b )
 
-                else if l == "B" || l == "Y" then
-                    Paper
-
-                else if l == "C" || l == "Z" then
-                    Scissors
-
-                else
-                    Unknown
+                    _ ->
+                        Nothing
             )
 
 
-toScore : List Throw -> Int
-toScore throws =
-    case throws of
-        [ a, b ] ->
-            case a of
-                Rock ->
-                    case b of
-                        Rock ->
-                            scoring.rock + scoring.draw
+toMove : String -> Maybe Move
+toMove s =
+    case s of
+        "A" ->
+            Just Rock
 
-                        Paper ->
-                            scoring.paper + scoring.win
+        "B" ->
+            Just Paper
 
-                        Scissors ->
-                            scoring.scissors + scoring.lose
+        "C" ->
+            Just Scissors
 
-                        Unknown ->
-                            0
+        "X" ->
+            Just Rock
 
-                Paper ->
-                    case b of
-                        Rock ->
-                            scoring.rock + scoring.lose
+        "Y" ->
+            Just Paper
 
-                        Paper ->
-                            scoring.paper + scoring.draw
-
-                        Scissors ->
-                            scoring.scissors + scoring.win
-
-                        Unknown ->
-                            0
-
-                Scissors ->
-                    case b of
-                        Rock ->
-                            scoring.rock + scoring.win
-
-                        Paper ->
-                            scoring.paper + scoring.lose
-
-                        Scissors ->
-                            scoring.scissors + scoring.draw
-
-                        Unknown ->
-                            0
-
-                Unknown ->
-                    0
+        "Z" ->
+            Just Scissors
 
         _ ->
-            0
+            Nothing
+
+
+toOutcome : String -> Maybe Outcome
+toOutcome s =
+    case s of
+        "X" ->
+            Just Lose
+
+        "Y" ->
+            Just Draw
+
+        "Z" ->
+            Just Win
+
+        _ ->
+            Nothing
+
+
+filterUnparsed : List ( Maybe a, Maybe b ) -> List ( a, b )
+filterUnparsed list =
+    List.filterMap
+        (\pair ->
+            case pair of
+                ( Just a, Just b ) ->
+                    Just ( a, b )
+
+                _ ->
+                    Nothing
+        )
+        list
+
+
+outcomeToMove : ( Move, Outcome ) -> ( Move, Move )
+outcomeToMove ( move, outcome ) =
+    case move of
+        Rock ->
+            case outcome of
+                Win ->
+                    ( Rock, Paper )
+
+                Lose ->
+                    ( Rock, Scissors )
+
+                Draw ->
+                    ( Rock, Rock )
+
+        Paper ->
+            case outcome of
+                Win ->
+                    ( Paper, Scissors )
+
+                Lose ->
+                    ( Paper, Rock )
+
+                Draw ->
+                    ( Paper, Paper )
+
+        Scissors ->
+            case outcome of
+                Win ->
+                    ( Scissors, Rock )
+
+                Lose ->
+                    ( Scissors, Paper )
+
+                Draw ->
+                    ( Scissors, Scissors )
+
+
+toScore : ( Move, Move ) -> Int
+toScore ( move, move2 ) =
+    case move of
+        Rock ->
+            case move2 of
+                Rock ->
+                    scoring.rock + scoring.draw
+
+                Paper ->
+                    scoring.paper + scoring.win
+
+                Scissors ->
+                    scoring.scissors + scoring.lose
+
+        Paper ->
+            case move2 of
+                Rock ->
+                    scoring.rock + scoring.lose
+
+                Paper ->
+                    scoring.paper + scoring.draw
+
+                Scissors ->
+                    scoring.scissors + scoring.win
+
+        Scissors ->
+            case move2 of
+                Rock ->
+                    scoring.rock + scoring.win
+
+                Paper ->
+                    scoring.paper + scoring.lose
+
+                Scissors ->
+                    scoring.scissors + scoring.draw
 
 
 
