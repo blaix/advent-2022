@@ -1,13 +1,16 @@
 module Main exposing (main)
 
-import Day01
-import Day02
 import Browser
 import Browser.Navigation as Nav
+import Day01
+import Day02
 import Html as H
 import Url
 
-type alias Flags = ()
+
+type alias Flags =
+    ()
+
 
 main : Program Flags Model Msg
 main =
@@ -76,7 +79,7 @@ view _ =
             [ H.text "Day 1\n"
             , H.text "-----\n"
             , H.text "Part 1: "
-            , H.text (Debug.toString Day01.part1) 
+            , H.text (Debug.toString Day01.part1)
             , H.text "\nPart 2: "
             , H.text (Debug.toString Day01.part2)
             , H.text "\n\n"
