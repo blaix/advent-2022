@@ -13,7 +13,7 @@ type alias ScoreConfig =
     , paper : Int
     , scissors : Int
     , win : Int
-    , tie : Int
+    , draw : Int
     , lose : Int
     }
 
@@ -24,7 +24,7 @@ scoring =
     , paper = 2
     , scissors = 3
     , win = 6
-    , tie = 3
+    , draw = 3
     , lose = 0
     }
 
@@ -66,7 +66,7 @@ toScore throws =
                 Rock ->
                     case b of
                         Rock ->
-                            scoring.rock + scoring.tie
+                            scoring.rock + scoring.draw
 
                         Paper ->
                             scoring.paper + scoring.win
@@ -83,7 +83,7 @@ toScore throws =
                             scoring.rock + scoring.lose
 
                         Paper ->
-                            scoring.paper + scoring.tie
+                            scoring.paper + scoring.draw
 
                         Scissors ->
                             scoring.scissors + scoring.win
@@ -100,7 +100,7 @@ toScore throws =
                             scoring.paper + scoring.lose
 
                         Scissors ->
-                            scoring.scissors + scoring.tie
+                            scoring.scissors + scoring.draw
 
                         Unknown ->
                             0
