@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Day01
+import Day02
 import Browser
 import Browser.Navigation as Nav
 import Html as H
@@ -72,11 +73,17 @@ view _ =
     { title = "Advent of Code 2022"
     , body =
         [ H.pre []
-            [ H.text "Part 1: "
+            [ H.text "Day 1\n"
+            , H.text "-----\n"
+            , H.text "Part 1: "
             , H.text (Debug.toString Day01.part1) 
-            , H.text "\n"
-            , H.text "Part 2: "
+            , H.text "\nPart 2: "
             , H.text (Debug.toString Day01.part2)
+            , H.text "\n\n"
+            , H.text "Day 2\n"
+            , H.text "-----\n"
+            , H.text "Part 1: "
+            , H.text (Debug.toString Day02.part1)
             ]
         ]
     }
