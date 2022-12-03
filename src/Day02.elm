@@ -8,7 +8,10 @@ The input represents rock/paper/scissors matches and looks like this:
        B Y
        C Z
 
-The first column is your opponent's move. The second column is your move.
+The first column is your opponent's move. A is rock, B is paper, C is scissors.
+
+The second column is your move. What the letter represents depends on what part
+of the puzzle you're solving.
 
 The goal is to get a total score based on if you win, lose, or draw, and what
 type of hand you throw (see `scoring` below).
