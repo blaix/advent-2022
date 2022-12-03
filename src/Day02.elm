@@ -1,20 +1,39 @@
 module Day02 exposing (part1, part2)
 
+{-| <https://adventofcode.com/2022/day/2>
 
+The input represents rock/paper/scissors matches and looks like this:
+
+       A X
+       B Y
+       C Z
+
+The first column is your opponent's move. The second column is your move.
+
+The goal is to get a total score based on if you win, lose, or draw, and what
+type of hand you throw (see `scoring` below).
+
+-}
+
+
+{-| In part 1 we assume the second column represents the hand we want to throw.
+X for rock, Y for paper, Z for scissors.
+-}
 part1 =
     input
         |> toLetterPairs
-        -- Part 1 thinks the second letter is a move
         |> List.map (\( a, b ) -> ( toMove a, toMove b ))
         |> filterUnparsed
         |> List.map toScore
         |> List.sum
 
 
+{-| In part 2 we know the second column actually represents the desired outcome
+of the match. X for a loss, Y for a draw, Z for a win.
+-}
 part2 =
     input
         |> toLetterPairs
-        -- Part 2 knows the second letter is the desired outcome
         |> List.map (\( a, b ) -> ( toMove a, toOutcome b ))
         |> filterUnparsed
         |> List.map outcomeToMove
