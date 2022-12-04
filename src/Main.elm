@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Nav
 import Day01
 import Day02
+import Day03
 import Html as H
 import Url
 
@@ -89,6 +90,11 @@ view _ =
             , H.text (Debug.toString Day02.part1)
             , H.text "\nPart 2: "
             , H.text (Debug.toString Day02.part2)
+            , H.text "\n\n"
+            , H.text "Day 3\n"
+            , H.text "-----\n"
+            , H.text "Part 1: "
+            , H.text (Debug.toString Day03.part1)
             ]
         ]
     }
