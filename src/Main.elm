@@ -103,6 +103,8 @@ view _ =
             , H.text "-----\n"
             , H.text "Part 1: "
             , H.text (prettyPrint Day04.part1)
+            , H.text "\nPart 2: "
+            , H.text (prettyPrint Day04.part2)
             ]
         ]
     }

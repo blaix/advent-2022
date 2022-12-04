@@ -1,4 +1,6 @@
-module Day04 exposing (part1)
+module Day04 exposing (part1, part2)
+
+import Set exposing (Set)
 
 
 type alias Row =
@@ -9,6 +11,13 @@ part1 =
     input
         |> toRows
         |> List.filter fullyContains
+        |> List.length
+
+
+part2 =
+    input
+        |> toRows
+        |> List.filter partiallyContains
         |> List.length
 
 
@@ -33,8 +42,41 @@ toRow row =
 
 
 fullyContains : Row -> Bool
-fullyContains ( ( a1, b1 ), ( a2, b2 ) ) =
-    (a1 >= a2 && b1 <= b2) || (a2 >= a1 && b2 <= b1)
+fullyContains row =
+    let
+        ( a, b ) =
+            toRangeSet row
+
+        intersection =
+            Set.intersect a b
+    in
+    intersection == a || intersection == b
+
+
+partiallyContains : Row -> Bool
+partiallyContains row =
+    let
+        ( a, b ) =
+            toRangeSet row
+
+        intersection =
+            Set.intersect a b
+    in
+    intersection /= Set.empty
+
+
+toRangeSet : Row -> ( Set Int, Set Int )
+toRangeSet ( ( a1, a2 ), ( b1, b2 ) ) =
+    let
+        a =
+            List.range a1 a2
+                |> Set.fromList
+
+        b =
+            List.range b1 b2
+                |> Set.fromList
+    in
+    ( a, b )
 
 
 
