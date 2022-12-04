@@ -14,7 +14,8 @@ part1 =
         |> List.map bisect
         |> List.map intersect
         |> List.concat
-        |> score
+        |> List.filterMap toPriority
+        |> List.sum
 
 
 {-| Split a list in half.
@@ -51,19 +52,17 @@ intersect ( list1, list2 ) =
         |> Set.toList
 
 
-{-| Convert a list of chars to a score.
-Each char represents a packing error and score depends on alphabetical order.
+{-| Return the priority value of a char, which is based on alphabetical order.
 -}
-score : List Char -> Int
-score errors =
+toPriority : Char -> Maybe Int
+toPriority char =
     let
         alphabet =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     in
-    errors
-        |> List.filterMap (indexIn alphabet)
-        |> List.map ((+) 1)
-        |> List.sum
+    char
+        |> indexIn alphabet
+        |> Maybe.map ((+) 1)
 
 
 {-| Return the index of the first occurance of char in string.
