@@ -95,6 +95,8 @@ view _ =
             , H.text "-----\n"
             , H.text "Part 1: "
             , H.text (Debug.toString Day03.part1)
+            , H.text "\nPart 2: "
+            , H.text (Debug.toString Day03.part2)
             ]
         ]
     }

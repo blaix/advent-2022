@@ -1,8 +1,9 @@
-module Day03 exposing (part1)
+module Day03 exposing (part1, part2)
 
 {-| <https://adventofcode.com/2022/day/3>
 -}
 
+import List.Extra as LE
 import Set
 
 
@@ -14,6 +15,27 @@ part1 =
         |> List.map bisect
         |> List.map intersect
         |> List.concat
+        |> List.filterMap toPriority
+        |> List.sum
+
+
+part2 =
+    input
+        |> String.trim
+        |> String.lines
+        |> List.map String.toList
+        |> List.map Set.fromList
+        |> LE.groupsOf 3
+        |> List.map
+            (\sets ->
+                case sets of
+                    [ a, b, c ] ->
+                        Set.intersect a (Set.intersect b c)
+
+                    _ ->
+                        Set.empty
+            )
+        |> List.concatMap Set.toList
         |> List.filterMap toPriority
         |> List.sum
 
