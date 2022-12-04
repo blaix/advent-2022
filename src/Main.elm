@@ -5,6 +5,7 @@ import Browser.Navigation as Nav
 import Day01
 import Day02
 import Day03
+import Day04
 import Html as H
 import Url
 
@@ -97,6 +98,22 @@ view _ =
             , H.text (Debug.toString Day03.part1)
             , H.text "\nPart 2: "
             , H.text (Debug.toString Day03.part2)
+            , H.text "\n\n"
+            , H.text "Day 4\n"
+            , H.text "-----\n"
+            , H.text "Part 1: "
+            , H.text (prettyPrint Day04.part1)
             ]
         ]
     }
+
+
+prettyPrint input =
+    input
+        |> Debug.toString
+        |> String.replace "],[" "],\n["
+        |> String.replace "),(" "),\n("
+        |> String.replace "[[" "[\n["
+        |> String.replace "((" "(\n("
+        |> String.replace "]]" "]\n]"
+        |> String.replace "))" ")\n)"
