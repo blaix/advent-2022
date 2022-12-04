@@ -1,20 +1,29 @@
 module Day04 exposing (part1)
 
 
+type alias Row =
+    ( ( Int, Int ), ( Int, Int ) )
+
+
 part1 =
     input
+        |> toRows
+        |> List.filter fullyContains
+        |> List.length
+
+
+toRows string =
+    string
         |> String.trim
         |> String.lines
         |> List.map (String.split ",")
         |> List.map (List.map (String.split "-"))
         |> List.map (List.map (List.map String.toInt))
-        |> List.filterMap toTuples
-        |> List.filter fullyContains
-        |> List.length
+        |> List.filterMap toRow
 
 
-toTuples : List (List (Maybe a)) -> Maybe ( ( a, a ), ( a, a ) )
-toTuples row =
+toRow : List (List (Maybe Int)) -> Maybe Row
+toRow row =
     case row of
         [ [ Just a, Just b ], [ Just c, Just d ] ] ->
             Just ( ( a, b ), ( c, d ) )
@@ -23,7 +32,7 @@ toTuples row =
             Nothing
 
 
-fullyContains : ( ( Int, Int ), ( Int, Int ) ) -> Bool
+fullyContains : Row -> Bool
 fullyContains ( ( a1, b1 ), ( a2, b2 ) ) =
     (a1 >= a2 && b1 <= b2) || (a2 >= a1 && b2 <= b1)
 
