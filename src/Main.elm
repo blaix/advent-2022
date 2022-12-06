@@ -7,6 +7,7 @@ import Day02
 import Day03
 import Day04
 import Day05
+import Debug.Extra
 import Html as H
 import Url
 
@@ -103,21 +104,14 @@ view _ =
             , H.text "Day 4\n"
             , H.text "-----\n"
             , H.text "Part 1: "
-            , H.text (prettyPrint Day04.part1)
+            , H.text (Debug.toString Day04.part1)
             , H.text "\nPart 2: "
-            , H.text (prettyPrint Day04.part2)
+            , H.text (Debug.toString Day04.part2)
             , H.text "\n\n"
             , H.text "Day 5\n"
             , H.text "-----\n"
             , H.text "Part 1: "
-            , H.text (prettyPrint Day05.part1)
+            , Debug.Extra.prettyPrint Day05.part1
             ]
         ]
     }
-
-
-prettyPrint input =
-    input
-        |> Debug.toString
-        |> String.replace "[\"" "[\n\""
-        |> String.replace "," ",\n"
