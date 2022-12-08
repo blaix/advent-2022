@@ -111,7 +111,7 @@ view _ =
             , H.text "Day 5\n"
             , H.text "-----\n"
             , H.text "Part 1: "
-            , Debug.Extra.prettyPrint Day05.part1
+            , H.text (Debug.toString Day05.part1)
             ]
         ]
     }
