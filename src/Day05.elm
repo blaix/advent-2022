@@ -1,4 +1,4 @@
-module Day05 exposing (part1)
+module Day05 exposing (part1, part2)
 
 {-| Day 5: <https://adventofcode.com/2022/day/5>
 
@@ -62,6 +62,11 @@ type alias Move =
     }
 
 
+type Part
+    = Part1
+    | Part2
+
+
 toSlot : String -> Maybe Slot
 toSlot line =
     let
@@ -101,6 +106,14 @@ toMove line =
 
 
 part1 =
+    solve Part1
+
+
+part2 =
+    solve Part2
+
+
+solve part =
     let
         sections =
             String.split "\n\n" input
@@ -147,7 +160,7 @@ part1 =
             List.filterMap toMove instructions
     in
     moves
-        |> doMoves stacks
+        |> doMoves part stacks
         |> Array.toList
         |> List.filterMap List.head
         |> List.map unWrap
@@ -164,27 +177,27 @@ unWrap slot =
             ""
 
 
-doMoves : Stacks -> List Move -> Stacks
-doMoves stacks moves =
+doMoves : Part -> Stacks -> List Move -> Stacks
+doMoves part stacks moves =
     case moves of
         move :: rest ->
             let
                 newStacks =
-                    doMove stacks move
+                    doMove part stacks move
             in
             case rest of
                 [] ->
                     newStacks
 
                 _ ->
-                    doMoves newStacks rest
+                    doMoves part newStacks rest
 
         [] ->
             stacks
 
 
-doMove : Stacks -> Move -> Stacks
-doMove stacks move =
+doMove : Part -> Stacks -> Move -> Stacks
+doMove part stacks move =
     let
         from =
             Array.get move.from stacks
@@ -193,15 +206,22 @@ doMove stacks move =
         newFrom =
             List.drop move.count from
 
+        crates =
+            List.take move.count from
+                |> (case part of
+                        Part1 ->
+                            List.reverse
+
+                        Part2 ->
+                            identity
+                   )
+
         to =
             Array.get move.to stacks
                 |> Maybe.withDefault []
 
-        crates =
-            List.take move.count from
-
         newTo =
-            List.reverse crates ++ to
+            crates ++ to
 
         newCrates =
             stacks
