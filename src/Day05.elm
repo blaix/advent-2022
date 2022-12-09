@@ -160,7 +160,7 @@ doMoves stacks moves =
         move :: rest ->
             let
                 newStacks =
-                    doMove 0 stacks move
+                    doMove stacks move
             in
             case rest of
                 [] ->
@@ -173,8 +173,8 @@ doMoves stacks moves =
             stacks
 
 
-doMove : Int -> Stacks -> Move -> Stacks
-doMove iteration stacks move =
+doMove : Stacks -> Move -> Stacks
+doMove stacks move =
     let
         from =
             Array.get move.from stacks
@@ -200,8 +200,8 @@ doMove iteration stacks move =
                 |> Array.set move.to newTo
                 |> Array.set move.from newFrom
     in
-    if iteration + 1 < move.count then
-        doMove (iteration + 1) newCrates move
+    if move.count > 1 then
+        doMove newCrates { move | count = move.count - 1 }
 
     else
         newCrates
