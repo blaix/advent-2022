@@ -7,6 +7,7 @@ import Day02
 import Day03
 import Day04
 import Day05
+import Day06
 import Debug.Extra
 import Html as H
 import Url
@@ -114,6 +115,11 @@ view _ =
             , H.text (Debug.toString Day05.part1)
             , H.text "\nPart 2: "
             , H.text (Debug.toString Day05.part2)
+            , H.text "\n\n"
+            , H.text "Day 6\n"
+            , H.text "-----\n"
+            , H.text "Part 1: "
+            , Debug.Extra.prettyPrint Day06.part1
             ]
         ]
     }
