@@ -16,7 +16,7 @@ Given input representing stacks of crates and instructions like this:
 
 Perform the list of moves and return the new top of each stack.
 
-The crates should be moved one at a time.
+In part 1, the crates should be moved one at a time.
 For example, after performing an instruction of:
 
     move 2 from 2 to 3
@@ -29,6 +29,16 @@ the resulting stacks should look like this:
      1   2   3
 
 with resulting top crates being: NMC
+
+In part 2, the crates are moved all at once.
+For example, that same instruction would result in:
+
+            [D]
+    [N]     [C]
+    [Z] [M] [P]
+     1   2   3
+
+with resulting top crates being: NMD
 
 -}
 
@@ -180,31 +190,25 @@ doMove stacks move =
             Array.get move.from stacks
                 |> Maybe.withDefault []
 
+        newFrom =
+            List.drop move.count from
+
         to =
             Array.get move.to stacks
                 |> Maybe.withDefault []
 
+        crates =
+            List.take move.count from
+
         newTo =
-            case List.head from of
-                Just crate ->
-                    crate :: to
-
-                Nothing ->
-                    to
-
-        newFrom =
-            List.drop 1 from
+            List.reverse crates ++ to
 
         newCrates =
             stacks
                 |> Array.set move.to newTo
                 |> Array.set move.from newFrom
     in
-    if move.count > 1 then
-        doMove newCrates { move | count = move.count - 1 }
-
-    else
-        newCrates
+    newCrates
 
 
 sample : String
