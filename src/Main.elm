@@ -120,6 +120,8 @@ view _ =
             , H.text "-----\n"
             , H.text "Part 1: "
             , Debug.Extra.prettyPrint Day06.part1
+            , H.text "\nPart 2: "
+            , Debug.Extra.prettyPrint Day06.part2
             ]
         ]
     }
