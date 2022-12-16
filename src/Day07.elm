@@ -67,6 +67,13 @@ part1 =
         |> String.lines
         |> List.filterMap parseLine
         |> List.foldl runLine ( [], Dict.empty )
+        |> Tuple.second
+        |> Dict.map getSize
+
+
+getSize : Path -> List FileDetails -> Int
+getSize _ files =
+    files |> List.map .size |> List.sum
 
 
 parseLine : String -> Maybe Line
